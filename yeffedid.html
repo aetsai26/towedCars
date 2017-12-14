@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+                <script>
+            $(document).ready(function() {
+                $("button").click(function() {
+                    var plates=[];
+                    var search=String(prompt("Licence Plate"));
+                    console.log(search);
+                    var found=false;
+                    //console.log("clicked");
+                    $.ajax({
+                        url: "https://data.cityofchicago.org/resource/rp42-fxjt.json",
+                        success: function(result) {
+                            console.log(result);
+                            var output = "";
+                            
+                            $.each(result, function(index, value){
+                                //console.log(index + " " + value);
+                                
+                                // output += "<div class='output'>" + value.building_street + " " + value.original_lse_report_approved + "</div>";
+                                plates.push(value.plate); 
+                                
+                            }); 
+                            //$("#results").html(output);
+                            console.log(plates);
+                            var address;
+                            for(var i = 0; i<plates.length; i++) {
+                                console.log(search)
+                                if(search==plates[i]){  found=true; address=result[i].towed_to_address; break;}
+                            }
+                            $("#results").html(found + " at " + address);
+                        }
+                    })
+                    
+                             
+                });
+            });
+        </script>
+       
+        
+        <style>
+            .output{
+                color: red;
+            }
+            #bbb{
+                position: absolute;
+                left: 50%;
+                margin-left: -100px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="div1" class="container-fluid">
+            <h2 style="text-align:center;" class="jumbotron">Is your car impounded?</h2>
+        <button class="container-fluid .btn-danger .btn-block" id="bbb">Search for your liscense plate</button>
+        
+        <div id="results">
+        </div>
+        </div>
+    </body>
+
+    </html>
+
+</html>

@@ -1,0 +1,55 @@
+<DOCTYPE html>
+
+    <html>
+    
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+                <script>
+            $(document).ready(function() {
+                $("button").click(function() {
+                    //console.log("clicked");
+                    $.ajax({
+                        url: "https://data.cityofchicago.org/resource/rp42-fxjt.json",
+                        success: function(result) {
+                            console.log(result);
+                            var output = "";
+                            var plates=[];
+                            $.each(result, function(index, value){
+                                //console.log(index + " " + value);
+                                
+                                // output += "<div class='output'>" + value.building_street + " " + value.original_lse_report_approved + "</div>";
+                                
+                                plates.push(value.plate); 
+                            
+                            });
+                            //$("#results").html(output);
+                            $("#results").append(plates[0] + "</div>"); 
+                        }
+                    })
+                });
+            });
+        </script>
+       
+        
+        <style>
+            .output{
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="div1">
+            <h2>jQuery and APIs</h2>
+        </div>
+
+        <button>Events</button>
+        
+        <div id="results">
+            
+        </div>
+    </body>
+
+    </html>
